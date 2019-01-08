@@ -1,5 +1,6 @@
-package bc19;
+
 import java.util.ArrayList;
+
 public class BuildAction extends Action {
 	String action;
 	int build_unit;

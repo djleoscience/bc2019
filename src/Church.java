@@ -1,4 +1,4 @@
-package bc19;
+
 
 //    	Churches are structures with the ability to produce robots
 //    	for their Karbonite and Fuel cost. In any given turn a church

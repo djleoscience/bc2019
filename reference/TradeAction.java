@@ -1,5 +1,6 @@
-package bc19;
+
 import java.util.ArrayList;
+
 public class TradeAction extends Action {
 	String action;
 	int trade_fuel;

@@ -1,5 +1,6 @@
-package bc19;
-@jsweet.lang.Interface
+
+// @jsweet.lang.Interface
+
 public class UnitSpec {
     public int CONSTRUCTION_KARBONITE;
     public int CONSTRUCTION_FUEL;
