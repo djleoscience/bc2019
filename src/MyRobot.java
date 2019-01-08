@@ -29,22 +29,8 @@ public class MyRobot extends BCAbstractRobot {
     }
     
     public Action runCastle() {
-//    	Each team starts with 1-3 castles on the map, each 
-//    	with initial health 100 and vision radius 100. Castles 
-//    	have all the abilities of Churches, but cannot be built, 
-//    	and have greater health. Castles also have unique 
-//    	communication abilities; not only can all units send 
-//    	messages to Castles for free (discussed in the Communication 
-//    	section), but Castles can also trade Karbonite and Fuel 
-//    	with opposing team castles.
-//
-//   	Each turn, a castle can offer a Barter to a castle of the 
-//    	opposing team. Barters are offers to trade X Karbonite for 
-//    	Y Fuel (or vice versa). Players can use this functionality 
-//    	to collaborate with the opposing team for mutual benefit.
-//
-//    	When all of a team�s castles are destroyed, the team is 
-//    	considered defeated.
+		Castle c = new Castle();
+		return c.turn();
     }
     
     public Action runChurch() {
@@ -58,19 +44,23 @@ public class MyRobot extends BCAbstractRobot {
 //    	while the other robots are only capable of combat and resource 
 //    	transportation. 
     public Action runPilgrim() {
-    	
+    	Pilgrim p = new Pilgrim();
+    	return p.turn();
     }
     
     public Action runCrusader() {
-    	
+    	Crusader c = new Crusader();
+    	return c.turn();
     }
     
     public Action runProphet() {
-    	
+    	Prophet p = new Prophet();
+    	return p.turn();
     }
     
     public Action runPreacher() {
-    	
+    	Preacher p = new Preacher();
+    	return p.turn();
     }
     
     
