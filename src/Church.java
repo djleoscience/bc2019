@@ -1,11 +1,11 @@
-
+package bc19;
 
 //    	Churches are structures with the ability to produce robots
 //    	for their Karbonite and Fuel cost. In any given turn a church
 //    	can spawn a robot in any adjacent square, with that robot
 //    	added to the end of the turn queue. Robots adjacent to churches
 //    	in their turn can deposit Fuel and Karbonite, adding those
-//    	resources to the team�s global stores.
+//    	resources to the team's global stores.
 //
 //    	Churches can be constructed by Pilgrims for 50 Karbonite and 200
 //    	Fuel, and have an initial starting health of 50 and a vision
