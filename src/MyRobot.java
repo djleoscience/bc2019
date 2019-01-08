@@ -1,41 +1,66 @@
 package bc19;
 
 public class MyRobot extends BCAbstractRobot {
+	BuildType unit;
+	int unit_type;
 
-    public Action turn() {
-    	int unit_type = me.unit;
-    	switch(unit_type) {
-    	case 0:
-    		return runCastle();
-    		break;
-    	case 1:
-    		return runChurch();
-    		break;
-    	case 2:
-    		return runPilgrim();
-    		break;
-    	case 3:
-    		return runCrusader();
-    		break;
-    	case 4:
-    		return runProphet();
-    		break;
-    	case 5:
-    		return runPreacher();
-    		break;
-    	default:
-    		return;
-    	}
+	public MyRobot(){
+		 unit_type = me.unit;
+		 switch(unit_type){
+			 case 0:
+				 unit = new Castle();
+			 	 break;
+			 case 1:
+				 unit = new Church();
+			 	 break;
+			 case 2:
+				 unit = new Pilgrim();
+				 break;
+			 case 3:
+				 unit = new Crusader();
+				 break;
+			 case 4:
+			 	unit = new Prophet();
+			 	break;
+			 case 5:
+			 	unit = new Preacher();
+			 	break;
+			 default:
+				 return;
+		 }
+	}
+
+	public Action turn() {
+		switch(unit_type){
+			case 0:
+				return runCastle();
+				break;
+			case 1:
+				return runChurch();
+				break;
+			case 2:
+				return runPilgrim();
+				break;
+			case 3:
+				return runCrusader();
+				break;
+			case 4:
+				return runProphet();
+				break;
+			case 5:
+				return runPreacher();
+				break;
+			default:
+				return;
+		}
     }
     
     public Action runCastle() {
-		Castle c = new Castle();
-		return c.turn();
+		return unit.turn();
     }
     
     public Action runChurch() {
-		Church c = new Church();
-		return c.turn();
+		return unit.turn();
     }
     
 
@@ -44,23 +69,19 @@ public class MyRobot extends BCAbstractRobot {
 //    	while the other robots are only capable of combat and resource 
 //    	transportation. 
     public Action runPilgrim() {
-    	Pilgrim p = new Pilgrim();
-    	return p.turn();
+    	return unit.turn();
     }
     
     public Action runCrusader() {
-    	Crusader c = new Crusader();
-    	return c.turn();
+    	return unit.turn();
     }
     
     public Action runProphet() {
-    	Prophet p = new Prophet();
-    	return p.turn();
+    	return unit.turn();
     }
     
     public Action runPreacher() {
-    	Preacher p = new Preacher();
-    	return p.turn();
+    	return unit.turn();
     }
     
     
