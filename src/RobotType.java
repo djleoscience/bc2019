@@ -1,6 +1,6 @@
-package bc19;
 
-public abstract class RobotType extends BuildType{
+
+public abstract class RobotType extends BuildType {
     private final int KARB_CAPACITY;
     private final int FUEL_CAPACITY;
     private final int MOVEMENT_SPEED_SQ;

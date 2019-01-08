@@ -1,4 +1,4 @@
-package bc19;
+
 
 public abstract class BuildType {
 	final private int KARB_CONSTRUCTION_COST;

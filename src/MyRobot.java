@@ -1,4 +1,4 @@
-package bc19;
+
 
 public class MyRobot extends BCAbstractRobot {
 	BuildType unit;
