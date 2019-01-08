@@ -24,7 +24,7 @@ public class MyRobot extends BCAbstractRobot {
     		return runPreacher();
     		break;
     	default:
-    		return 
+    		return;
     	}
     }
     
@@ -43,14 +43,20 @@ public class MyRobot extends BCAbstractRobot {
 //    	Y Fuel (or vice versa). Players can use this functionality 
 //    	to collaborate with the opposing team for mutual benefit.
 //
-//    	When all of a team’s castles are destroyed, the team is 
+//    	When all of a teamï¿½s castles are destroyed, the team is 
 //    	considered defeated.
     }
     
     public Action runChurch() {
-    	
+		Church c = new Church();
+		return c.turn();
     }
     
+
+//    	There are four classes of robots: Pilgrims, Crusaders, Prophets, 
+//    	and Preachers. Pilgrims are scouting, mining, and building robots, 
+//    	while the other robots are only capable of combat and resource 
+//    	transportation. 
     public Action runPilgrim() {
     	
     }
