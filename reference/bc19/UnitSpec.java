@@ -1,4 +1,4 @@
-
+package bc19;
 // @jsweet.lang.Interface
 
 public class UnitSpec {
