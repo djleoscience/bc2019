@@ -10,7 +10,6 @@ public class Pilgrim extends RobotController {
   private Coord parentCastle;
   private int parentCastleID;
 
-  LinkedList<Node> path;
 
 
   boolean initialized = false; // Has performed first-time setup
@@ -47,24 +46,7 @@ public class Pilgrim extends RobotController {
       initialized = true;
     }
 
-    boolean[][] map = robot.getPassableMap();
-
-    int center = map.length/2;
-    path = getDirectionsTo(robot.me.x, robot.me.y, center, center);
-
-    return followPath();
-
-    //return gradientDescent();
-  }
-
-  private Action followPath(){
-    Node nextStep = path.getFirst();
-    int x = nextStep.getX();
-    int y = nextStep.getY();
-    if(validCoord(x, y) || robot.getPassableMap()[y][x] || robot.getVisibleRobotMap()[y][x] == 0){
-      return robot.move(Math.abs(x-robot.me.x), Math.abs(y - robot.me.y));
-    }
-    return null;
+    return gradientDescent();
   }
 
   private Action gradientDescent() {
