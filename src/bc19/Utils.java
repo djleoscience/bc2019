@@ -42,4 +42,8 @@ public class Utils {
     return new Coord(resultX, resultY);
 
   }
+
+  public static int randRange(int min, int max) {
+    return ( min + (int)(Math.random() * ((max - min) + 1)) );
+  }
 }

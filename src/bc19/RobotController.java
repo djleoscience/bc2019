@@ -1,9 +1,12 @@
 package bc19;
 
-import bc19.*;
+import java.util.*;
 
 public abstract class RobotController {
 
+  List<Coord> fuelCoords = new LinkedList<Coord>();
+  List<Coord> karboniteCoords = new LinkedList<Coord>();
+  public boolean resourceCoordsComputed = false;
 
   protected BCAbstractRobot robot;
 
@@ -59,6 +62,69 @@ public abstract class RobotController {
   public Action turn() {
     robot.log("Error - turn method was not overridden from RobotController");
     return null;
+  }
+
+  protected boolean validCoord(int x, int y) {
+    int mapSize = robot.getPassableMap().length;
+    return ( x >=0 && x < mapSize && y >= 0 && y < mapSize );
+  }
+
+
+
+  protected int churchScore(int x, int y) {
+
+    if (!resourceCoordsComputed) {
+      robot.log("Can't calculate score - no precomputations done");
+    }
+
+    double fuelScore = 0;
+
+    for (Coord c : fuelCoords) {
+      int xDif = x - c.x;
+      int yDif = y - c.y;
+      fuelScore += Math.log(xDif * xDif + yDif * yDif);
+      //fuelScore += xDif * xDif + yDif * yDif;
+
+    }
+
+    double karbScore = 0;
+
+    for (Coord c : karboniteCoords) {
+      int xDif = x - c.x;
+      int yDif = y - c.y;
+      karbScore += Math.log(xDif * xDif + yDif * yDif);
+      //karbScore += xDif * xDif + yDif * yDif;
+
+    }
+
+
+    int result = (int) (2.0d * karbScore + 2.0d * fuelScore);
+
+    return result;
+
+  }
+
+  protected void precomputeResourceCoords() {
+
+    if (resourceCoordsComputed) return;
+
+    boolean[][] fuelMap = robot.getFuelMap();
+    boolean[][] karboniteMap = robot.getKarboniteMap();
+
+    for (int i = 0; i < fuelMap.length; i++) {
+      for (int j = 0; j < fuelMap[i].length; j++) {
+        if (fuelMap[j][i]) {
+          // Found fuel
+          fuelCoords.add(new Coord(i, j));
+        } else if (karboniteMap[j][i]) {
+          // Found karbonite
+          karboniteCoords.add(new Coord(i, j));
+        }
+
+      }
+    }
+
+    resourceCoordsComputed = true;
   }
 
 }

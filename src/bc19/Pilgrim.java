@@ -10,6 +10,8 @@ public class Pilgrim extends RobotController {
   private Coord parentCastle;
   private int parentCastleID;
 
+
+
   boolean initialized = false; // Has performed first-time setup
 
   // Inherits protected member BCAbstractRobot robot
@@ -44,10 +46,77 @@ public class Pilgrim extends RobotController {
       initialized = true;
     }
 
+    return gradientDescent();
+  }
+
+  private Action gradientDescent() {
+
+    int minScore = 1999999999;
+
+    int bestXOffset = 0;
+    int bestYOffset = 0;
+
+    for (int i = -1; i <= 1; i++) {
+      for (int j = -1; j <= 1; j++) {
+
+        // 3 by 3 grid
+
+        int x = robot.me.x + i;
+        int y = robot.me.y + j;
+
+        if ( !validCoord(x, y) || !robot.getPassableMap()[y][x] || robot.getVisibleRobotMap()[y][x] != 0 ||
+            (i == 0 && j == 0) ) {
+          continue;
+        }
+
+        int score = churchScore(x, y);
+
+        if (score < minScore) {
+          bestXOffset = i;
+          bestYOffset = j;
+          minScore = score;
+        }
+
+      }
+    }
+
+    if (bestXOffset != 0 || bestYOffset != 0) {
+      return robot.move(bestXOffset, bestYOffset);
+    }
+
+    // We are either already at a minimum, or something went wrong
+
+    // TODO: finish
+    // For now, just stay in place
+
+    //robot.log("Already at min");
+
     return null;
+
+
+  }
+
+  private int[][] getChurchScores() {
+
+    int[][] scores = new int[3][3];
+
+    for (int i = -1; i <= 1; i++) {
+      for (int j = -1; j <= 1; j++) {
+
+        // 3 by 3 grid
+
+        int x = robot.me.x + i;
+        int y = robot.me.y + j;
+
+        scores[j+1][i+1] = churchScore(x, y);
+      }
+    }
+    return scores;
   }
 
   private void initialize() {
+
+    precomputeResourceCoords();
 
     Robot[] visible = robot.getVisibleRobots();
     List<Coord> castleList = new ArrayList<Coord>();

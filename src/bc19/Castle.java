@@ -1,5 +1,7 @@
 package bc19;
 
+import java.util.*;
+
 // Each team starts with 1-3 castles on the map, each with initial health 100 and vision radius 100.
 // Castles have all the abilities of Churches, but cannot be built, and have greater health.
 // Castles also have unique communication abilities; not only can all units send messages to Castles
@@ -7,6 +9,8 @@ package bc19;
 // with opposing team castles.
 
 public class Castle extends RobotController {
+
+  int timesCreated = 0; // Temp var to limit number of initial pilgrims
 
   boolean initialized = false; // Has performed first-time setup
 
@@ -39,7 +43,11 @@ public class Castle extends RobotController {
 
       initialize();
       initialized = true;
-      return robot.buildUnit(2,0,1);
+    }
+
+    if (timesCreated < 20) {
+      timesCreated++;
+      return placeRandomPilgrim();
     }
 
     return null;
@@ -97,6 +105,70 @@ public class Castle extends RobotController {
     // For now, just assume one way
 
     return true;
+
+  }
+
+  /**
+   * For testing purposes only, randomly places pilgrims until it runs out of fuel;
+   */
+  private Action placeRandomPilgrim() {
+
+
+    int numOpenSpaces = 0;
+    List<Coord> validCoordDiff = new LinkedList<Coord>();
+
+    for (int i = -1; i <= 1; i++) {
+      for (int j = -1; j <= 1; j++) {
+
+        int x = robot.me.x + i;
+        int y = robot.me.y + j;
+
+        /*  THIS IS RIGHT, I AM JUST SPLITTING IT UP FOR DEBUGGING
+        if ( !validCoord(x, y) || !robot.getPassableMap()[x][y] || robot.getVisibleRobotMap()[x][y] != 0 ||
+            (i == 0 && x == 0) ) {
+          continue;
+        }*/
+
+        robot.log("Checking validity of => x:"+x+" y:"+y);
+
+        if ( !validCoord(x, y)) {
+          robot.log("Skipping because invalid coord");
+          continue;
+        }
+        if (!robot.getPassableMap()[y][x]) {
+          robot.log("Skipping bc obstacle");
+          continue;
+        }
+        if (robot.getVisibleRobotMap()[y][x] != 0) {
+          robot.log("Skipping bc robot in the way");
+          continue;
+        }
+        if ((i == 0 && j == 0)) {
+          robot.log("Skipping bc center tile");
+          continue;
+        }
+
+        robot.log("Valid spot found");
+
+        numOpenSpaces++;
+        validCoordDiff.add(new Coord(i, j));
+
+      }
+    }
+
+    if (numOpenSpaces == 0) {
+      robot.log("No open spaces");
+      // Can't place a new pilgrim. For now, do nothing
+      return null;
+    }
+
+    Coord diff = validCoordDiff.get(Utils.randRange(0, numOpenSpaces));
+
+    robot.log("Decided to build pilgrim at => xDif:"+diff.x+" yDif:"+diff.y);
+
+    return robot.buildUnit(2, diff.x, diff.y);
+
+
 
   }
 }
