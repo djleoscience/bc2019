@@ -97,38 +97,46 @@ public abstract class RobotController {
             }
 
             //for each of the possible next paths from this point
-            for(int i = -1; i < 2; i++){
-                for(int j = -1; j < 2; j++){
-                    //add the difference to the X and Y values
-                    int newX = selected.getX() + i;
-                    int newY = selected.getY() + j;
-                    //if the spot isn't the same and the place is transversible (lol is that a word)
-                    //and if it's not in the closed list
-                    if((!(i == 0 && j == 0)) && map[newX][newY]){
-                        //if it's not on the closedList, see if it's on the open list but better
-                        if(!closedList[newX][newY]){
-                            boolean foundOneGreater = false;
-                            for(int x = 0; x < openList.size(); i++){
-                                if(openList.get(x).equals(newX, newY)){
-                                    //if the count is less than one on the open list that's at the same position
-                                    if(selected.getCount() + 1 < openList.get(x).getCount()){
-                                        //remove that Node and get it replaced
-                                        openList.remove(x);
+            for(int i = 0; i * i < MOVEMENT_SPEED_SQ; i++){
+                int j = 0;
+                while(j * j + i * i < MOVEMENT_SPEED_SQ){
+                    for(int m = -1; m < 2; m += 2){
+                        for(int n = -1; n < 2; n += 2){
+                            //add difference to x and y values
+                            int newX = selected.getX() + (i * m);
+                            int newY = selected.getY() + (j * n);
+
+                            //if the spot isn't the same and the place is transversable (lol is that a word)
+                            //and if it's not in the closed list
+                            if((!(i == 0 && j == 0)) && newX < map.length && newY < map.length && newX > -1 && newY > -1 &&  map[newX][newY]){
+                                //if it's not on the closedList, see if it's on the open list but better
+                                if(!closedList[newX][newY]){
+                                    boolean foundOneGreater = false;
+                                    for(int x = 0; x < openList.size(); i++){
+                                        if(openList.get(x).equals(newX, newY)){
+                                            //if the count is less than one on the open list that's at the same position
+                                            if(selected.getCount() + 1 < openList.get(x).getCount()){
+                                                //remove that Node and get it replaced
+                                                openList.remove(x);
+                                            }
+                                            else {
+                                                //else set a flag that we shouldn't add this one in
+                                                foundOneGreater = true;
+                                            }
+                                            //stop the for loop
+                                            x = openList.size();
+                                        }
                                     }
-                                    else {
-                                        //else set a flag that we shouldn't add this one in
-                                        foundOneGreater = true;
+                                    //if not found one greater then add it to the open list
+                                    if(!foundOneGreater){
+                                        openList.add(new Node(newX, newY, selected, toX, toY));
                                     }
-                                    //stop the for loop
-                                    x = openList.size();
                                 }
-                            }
-                            //if not found one greater then add it to the open list
-                            if(!foundOneGreater){
-                                openList.add(new Node(newX, newY, selected, toX, toY));
                             }
                         }
                     }
+                    //increment j
+                    j++;
                 }
             }
         }
