@@ -105,6 +105,7 @@ public abstract class RobotController {
                   finalList.addFirst(focus.getPastNode());
                   focus = focus.getPastNode();
                 }
+                return finalList;
             }
 
             //for each of the possible next paths from this point
