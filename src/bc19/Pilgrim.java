@@ -69,7 +69,7 @@ public class Pilgrim extends RobotController {
 
   private Action gradientDescent() {
 
-    int minScore = churchScore(robot.me.x, robot.me.y);
+    int minScore = 1999999999;
 
     int bestXOffset = 0;
     int bestYOffset = 0;
