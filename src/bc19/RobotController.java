@@ -9,6 +9,8 @@ import bc19.*;
 
 public abstract class RobotController {
 
+  LinkedList<Node> path = null;
+
   List<Coord> fuelCoords = new LinkedList<Coord>();
   List<Coord> karboniteCoords = new LinkedList<Coord>();
   public boolean resourceCoordsComputed = false;
@@ -105,8 +107,9 @@ public abstract class RobotController {
                   finalList.addFirst(focus.getPastNode());
                   focus = focus.getPastNode();
                 }
-                return finalList;
             }
+
+            robot.log("Made it here! #1");
 
             //for each of the possible next paths from this point
             for(int i = 0; i * i < MOVEMENT_SPEED_SQ; i++){
@@ -117,6 +120,8 @@ public abstract class RobotController {
                             //add difference to x and y values
                             int newX = selected.getX() + (i * m);
                             int newY = selected.getY() + (j * n);
+
+                          robot.log("Made it here! #2");
 
                             //if the spot isn't the same and the place is transversable (lol is that a word)
                             //and if it's not in the closed list
@@ -149,15 +154,32 @@ public abstract class RobotController {
                     }
                     //increment j
                     j++;
+                  robot.log("Made it here! #3");
                 }
             }
         }
         return null;
     }
 
-  protected boolean validCoord(int x, int y) {
+  protected Action followPath() {
+    Node nextStep = path.get(0);
+    if (nextStep == null) {
+      robot.log("Path is empty");
+      return null;
+    }
+    int x = nextStep.getX();
+    int y = nextStep.getY();
+    if (validCoord(x, y) || robot.getPassableMap()[y][x] || robot.getVisibleRobotMap()[y][x] == 0) {
+      path.remove(0);
+      return robot.move(Math.abs(x - robot.me.x), Math.abs(y - robot.me.y));
+    }
+
+    return null;
+  }
+
+  protected boolean validCoord ( int x, int y){
     int mapSize = robot.getPassableMap().length;
-    return ( x >=0 && x < mapSize && y >= 0 && y < mapSize );
+    return (x >= 0 && x < mapSize && y >= 0 && y < mapSize);
   }
 
 

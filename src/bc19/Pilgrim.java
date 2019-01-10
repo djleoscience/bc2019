@@ -44,14 +44,18 @@ public class Pilgrim extends RobotController {
 
       initialize();
       initialized = true;
+
+      Coord resource = fuelCoords.get(0);
+
+      //path = getDirectionsTo(robot.me.x, robot.me.y, resource.x, resource.y);
     }
 
-    return gradientDescent();
+    return null;
   }
 
   private Action gradientDescent() {
 
-    int minScore = 1999999999;
+    int minScore = churchScore(robot.me.x, robot.me.y);
 
     int bestXOffset = 0;
     int bestYOffset = 0;

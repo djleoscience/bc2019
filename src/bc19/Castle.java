@@ -45,7 +45,7 @@ public class Castle extends RobotController {
       initialized = true;
     }
 
-    if (timesCreated < 20) {
+    if (timesCreated < 1) {
       timesCreated++;
       return placeRandomPilgrim();
     }
@@ -54,6 +54,8 @@ public class Castle extends RobotController {
   }
 
   private void initialize() {
+
+    precomputeResourceCoords();
 
     int mapSize = robot.getPassableMap().length;
 
@@ -129,26 +131,26 @@ public class Castle extends RobotController {
           continue;
         }*/
 
-        robot.log("Checking validity of => x:"+x+" y:"+y);
+        //robot.log("Checking validity of => x:"+x+" y:"+y);
 
         if ( !validCoord(x, y)) {
-          robot.log("Skipping because invalid coord");
+          //robot.log("Skipping because invalid coord");
           continue;
         }
         if (!robot.getPassableMap()[y][x]) {
-          robot.log("Skipping bc obstacle");
+          //robot.log("Skipping bc obstacle");
           continue;
         }
         if (robot.getVisibleRobotMap()[y][x] != 0) {
-          robot.log("Skipping bc robot in the way");
+          //robot.log("Skipping bc robot in the way");
           continue;
         }
         if ((i == 0 && j == 0)) {
-          robot.log("Skipping bc center tile");
+          //robot.log("Skipping bc center tile");
           continue;
         }
 
-        robot.log("Valid spot found");
+        //robot.log("Valid spot found");
 
         numOpenSpaces++;
         validCoordDiff.add(new Coord(i, j));
@@ -157,7 +159,7 @@ public class Castle extends RobotController {
     }
 
     if (numOpenSpaces == 0) {
-      robot.log("No open spaces");
+      //robot.log("No open spaces");
       // Can't place a new pilgrim. For now, do nothing
       return null;
     }
