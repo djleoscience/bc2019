@@ -120,7 +120,7 @@ public abstract class RobotController {
 
                             //if the spot isn't the same and the place is transversable (lol is that a word)
                             //and if it's not in the closed list
-                            if((!(i == 0 && j == 0)) && newX < map.length && newY < map.length && newX > -1 && newY > -1 &&  map[newX][newY]){
+                            if((!(i == 0 && j == 0)) && newX < map.length && newY < map.length && newX > -1 && newY > -1 &&  map[newY][newX]){
                                 //if it's not on the closedList, see if it's on the open list but better
                                 if(!closedList[newX][newY]){
                                     boolean foundOneGreater = false;
