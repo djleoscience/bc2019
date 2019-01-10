@@ -12,6 +12,8 @@ public class Castle extends RobotController {
 
   boolean verticalSymetry = false; // False for horizontal
 
+  private final Coord enemyCastle;
+
   public Castle(BCAbstractRobot robot){
     super(robot, 0,
         -1, // Karb Construction Cost
@@ -28,6 +30,7 @@ public class Castle extends RobotController {
         -1); // Attack fuel cost
     // Invalid values used for impossible actions
 
+    enemyCastle = new Coord();
   }
 
   public Action turn(){
@@ -36,6 +39,7 @@ public class Castle extends RobotController {
 
       initialize();
       initialized = true;
+      return robot.buildUnit(2,0,1);
     }
 
     return null;
@@ -45,25 +49,24 @@ public class Castle extends RobotController {
 
     int mapSize = robot.getPassableMap().length;
 
-    if (robot.me.team == 0) {
-      // Red Team
-      robot.log("Castle on red team");
-    } else {
-      // Blue Team
-      robot.log("Castle on blue team");
-    }
-
-    robot.log("My location is => x:"+robot.me.x + " y:"+robot.me.y);
+    robot.log("Castle location is => x:"+robot.me.x + " y:"+robot.me.y);
+    robot.log("Castle ID is "+robot.me.id);
 
     verticalSymetry = isVerticallySymmetric();
 
     if (verticalSymetry) {
-      robot.log("Believe map is vertically symmetric");
-      robot.log("Believe enemy Castle is at position => x:"+(mapSize - 1 - robot.me.x)+" y:"+robot.me.y);
+      //robot.log("Believe map is vertically symmetric");
+      //robot.log("Believe enemy Castle is at position => x:"+(mapSize - 1 - robot.me.x)+" y:"+robot.me.y);
+      enemyCastle.x = mapSize - 1 - robot.me.x;
+      enemyCastle.y = robot.me.y;
     } else {
-      robot.log("Believe map is horizontally symmetric");
-      robot.log("Believe enemy Castle is at position => x:"+robot.me.x+" y:"+(mapSize - 1 -robot.me.y));
+      //robot.log("Believe map is horizontally symmetric");
+      //robot.log("Believe enemy Castle is at position => x:"+robot.me.x+" y:"+(mapSize - 1 -robot.me.y));
+      enemyCastle.x = robot.me.x;
+      enemyCastle.y = mapSize - 1 - robot.me.y;
     }
+
+
 
 
   }
