@@ -8,6 +8,12 @@ package bc19;
 
 public class Castle extends RobotController {
 
+  boolean initialized = false; // Has performed first-time setup
+
+  boolean verticalSymetry = false; // False for horizontal
+
+  private final Coord enemyCastle;
+
   public Castle(BCAbstractRobot robot){
     super(robot, 0,
         -1, // Karb Construction Cost
@@ -24,10 +30,73 @@ public class Castle extends RobotController {
         -1); // Attack fuel cost
     // Invalid values used for impossible actions
 
+    enemyCastle = new Coord();
   }
 
   public Action turn(){
-    robot.log("Action from Castle");
+
+    if (!initialized) {
+
+      initialize();
+      initialized = true;
+      return robot.buildUnit(2,0,1);
+    }
+
     return null;
+  }
+
+  private void initialize() {
+
+    int mapSize = robot.getPassableMap().length;
+
+    robot.log("Castle location is => x:"+robot.me.x + " y:"+robot.me.y);
+    robot.log("Castle ID is "+robot.me.id);
+
+    verticalSymetry = isVerticallySymmetric();
+
+    if (verticalSymetry) {
+      //robot.log("Believe map is vertically symmetric");
+      //robot.log("Believe enemy Castle is at position => x:"+(mapSize - 1 - robot.me.x)+" y:"+robot.me.y);
+      enemyCastle.x = mapSize - 1 - robot.me.x;
+      enemyCastle.y = robot.me.y;
+    } else {
+      //robot.log("Believe map is horizontally symmetric");
+      //robot.log("Believe enemy Castle is at position => x:"+robot.me.x+" y:"+(mapSize - 1 -robot.me.y));
+      enemyCastle.x = robot.me.x;
+      enemyCastle.y = mapSize - 1 - robot.me.y;
+    }
+
+
+
+
+  }
+
+  private boolean isVerticallySymmetric() {
+
+    boolean[][] passableMap = robot.getPassableMap();
+    int mapSize = passableMap.length;
+
+    for (int i = 0; i < mapSize / 2; i++) {
+      for (int j = 0; j < mapSize / 2; j++) {
+        if (passableMap[j][i] != passableMap[mapSize - 1 - j][i]) {
+          // Has to be vertical
+          return true;
+        }
+        if (passableMap[j][i] != passableMap[j][mapSize - 1 - i]) {
+          // Has to be horizontal
+          return false;
+        }
+      }
+    }
+
+    // As far as we can tell, map is both horizontally and vertically symmetric
+    // NOTE: this does not mean that the map is both horizontally and vertically symmetric, because the enemy castle
+    // will still only be placed across from us either horizontally or vertically.
+    // TODO: further thought on what to do. Search party?
+
+    // For now, just assume one way
+
+    return true;
+
   }
 }

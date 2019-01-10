@@ -1,5 +1,8 @@
 package bc19;
 
+// Fast moving attacking unit
+// Unit number 3
+
 public class Crusader extends RobotController {
 
   // Inherits protected member BCAbstractRobot robot

@@ -3,8 +3,6 @@ package bc19;
 public class MyRobot extends BCAbstractRobot {
 
 
-  boolean initialized = false;
-
   RobotController unit = null;
 
   int unitType = -1;
@@ -27,7 +25,7 @@ public class MyRobot extends BCAbstractRobot {
 
   public Action turn() {
 
-    if (!initialized) {
+    if (unit == null) {
 
       unitType = me.unit;
 
