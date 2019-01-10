@@ -69,7 +69,7 @@ public abstract class RobotController {
         return null;
     }
 
-    public Node getDirectionsTo(int fromX, int fromY, int toX, int toY) {
+    public LinkedList<Node> getDirectionsTo(int fromX, int fromY, int toX, int toY) {
         //get map
         boolean[][] map = robot.getPassableMap();
 
@@ -99,7 +99,12 @@ public abstract class RobotController {
 
             //if this value is our ending point, return the final node
             if(selected.getX() == toX && selected.getY() == toY){
-                return selected;
+                LinkedList<Node> finalList = new LinkedList<Node>();
+                Node focus = selected;
+                while(focus.getPastNode() != null){
+                  finalList.addFirst(focus.getPastNode());
+                  focus = focus.getPastNode();
+                }
             }
 
             //for each of the possible next paths from this point

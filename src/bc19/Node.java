@@ -24,6 +24,7 @@ public class Node {
         setCount(0);
         setFinalX(fx);
         setFinalY(fy);
+        pastNode = null;
     }
 
     public Node(int ex, int why, Node n, int fx, int fy){
